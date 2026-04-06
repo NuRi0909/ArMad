@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ArMad Restaurant - европейская и казахская кухня, банкетный зал, караоке и VIP-зоны.">
+  <title>ArMad Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<style>/* Переменные темы */
+:root {
+  --bg: #0d0d0f;
+  --surface: rgba(22, 22, 26, 0.88);
+  --surface-strong: #17171b;
+  --text: #f2eee4;
+  --muted: #beb7a8;
+  --accent: #d99844;
+  --accent-soft: rgba(217, 152, 68, 0.3);
+  --line: rgba(255, 255, 255, 0.1);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Плавная прокрутка по якорям */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Базовый фон и типографика страницы */
+body {
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(217, 152, 68, 0.2), transparent 65%),
+    radial-gradient(900px 500px at -10% 35%, rgba(92, 63, 37, 0.35), transparent 60%),
+    var(--bg);
+}
+
+.container {
+  width: min(1160px, 92%);
+  margin-inline: auto;
+}
+
+/* Липкая верхняя навигация */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  background: rgba(11, 11, 14, 0.72);
+}
+
+.nav-wrap {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 5px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 8px 10px;
+  border-radius: 999px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-extras {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Кнопки переключения RU/KZ */
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lang-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.lang-btn.is-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 11px 18px;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-solid {
+  background: var(--accent);
+  color: #1a130b;
+}
+
+.btn-solid:hover {
+  background: #e4a754;
+}
+
+.btn-outline {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Первый экран с переменными для параллакса */
+.hero {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 90vh;
+  display: grid;
+}
+
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transform: translate3d(calc(var(--parallax-x) * -0.08), calc(var(--parallax-y) * -0.12), 0) scale(1.08);
+  transition: transform 0.2s linear;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to right, rgba(9, 9, 11, 0.9) 25%, rgba(9, 9, 11, 0.5) 70%),
+    linear-gradient(to top, rgba(9, 9, 11, 0.7), transparent 45%);
+  transform: translate3d(calc(var(--parallax-x) * 0.05), calc(var(--parallax-y) * 0.08), 0) scale(1.04);
+  transition: transform 0.2s linear;
+  will-change: transform;
+}
+
+.hero-grid {
+  padding-block: 110px 70px;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(260px, 360px);
+  align-items: end;
+  gap: 34px;
+}
+
+.hero-kicker {
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 7vw, 4.8rem);
+  line-height: 1.08;
+  margin-bottom: 14px;
+  max-width: 11ch;
+}
+
+.hero-text {
+  color: var(--muted);
+  font-size: clamp(0.98rem, 2.5vw, 1.15rem);
+  max-width: 52ch;
+}
+
+.hero-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-panel {
+  background: rgba(18, 18, 24, 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-panel:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.5);
+}
+
+.hero-panel h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+}
+
+.hero-panel ul {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.hero-panel li {
+  background: rgba(14, 14, 20, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 2px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero-panel span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hero-panel strong {
+  font-size: 0.96rem;
+}
+
+.section {
+  padding-block: 84px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.section-tag {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.85rem, 4.5vw, 3.1rem);
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.about-grid p {
+  color: var(--muted);
+}
+
+.about-cards {
+  display: grid;
+  gap: 14px;
+}
+
+.mini-card {
+  background: linear-gradient(150deg, rgba(217, 152, 68, 0.14), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mini-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 16px 26px rgba(0, 0, 0, 0.35);
+}
+
+.mini-card h3 {
+  font-family: "Playfair Display", serif;
+  margin-bottom: 6px;
+  font-size: 1.25rem;
+}
+
+.menu-section h2 {
+  margin-bottom: 22px;
+}
+
+/* Поле поиска и фильтры категорий */
+.menu-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.menu-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.filter-btn.is-active {
+  color: #1a130b;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.menu-search {
+  width: min(320px, 100%);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--text);
+  outline: none;
+}
+
+.menu-search:focus {
+  border-color: var(--accent-soft);
+}
+
+.menu-category {
+  margin-bottom: 26px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.menu-category:last-child {
+  margin-bottom: 0;
+}
+
+.menu-category-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.35rem, 3.2vw, 1.95rem);
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.menu-item {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--surface-strong);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Мягкое золотое свечение при наведении */
+.menu-item::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(217, 152, 68, 0.38) 0%, rgba(217, 152, 68, 0) 62%);
+  filter: blur(20px);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Анимация блика при наведении */
+.menu-item::after {
+  content: "";
+  position: absolute;
+  top: -130%;
+  left: -45%;
+  width: 42%;
+  height: 270%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 230, 170, 0.45) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(18deg);
+  opacity: 0;
+}
+
+.menu-item:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+
+.menu-item:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.menu-item:hover::after {
+  opacity: 1;
+  animation: cardShine 0.9s ease;
+}
+
+/* Скрывается логикой фильтра/поиска в JS */
+.menu-item[hidden],
+.menu-category[hidden] {
+  display: none;
+}
+
+@keyframes cardShine {
+  from {
+    left: -45%;
+  }
+
+  to {
+    left: 125%;
+  }
+}
+
+.dish-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.22rem;
+  margin-bottom: 8px;
+}
+
+.dish-composition {
+  color: var(--muted);
+  font-size: 0.91rem;
+  margin-bottom: 12px;
+}
+
+.price {
+  color: var(--accent);
+  font-size: 1.02rem;
+}
+
+.booking-grid,
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-text {
+  color: var(--muted);
+}
+
+.booking-form,
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+}
+
+label span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 10px 12px;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent-soft);
+}
+
+.contact-card {
+  display: grid;
+  gap: 10px;
+}
+
+.booking-form:hover,
+.contact-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.3);
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* Фиксированная мобильная панель (Звонок / WhatsApp) */
+.mobile-actions {
+  display: none;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Начальное состояние анимации появления при скролле */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: blur(6px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.65s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (max-width: 980px) {
+  .hero-grid,
+  .about-grid,
+  .booking-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-grid {
+    align-items: center;
+    padding-block: 95px 56px;
+  }
+
+  .brand {
+    font-size: 1.45rem;
+    letter-spacing: 4px;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-wrap {
+    min-height: auto;
+    padding-block: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 10px;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+  }
+
+  .nav-extras {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .section {
+    padding-block: 64px;
+  }
+
+  .menu-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .menu-search {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-category {
+    padding: 14px;
+  }
+
+  .hero {
+    min-height: 82vh;
+  }
+
+  body {
+    padding-bottom: 76px;
+  }
+
+  .mobile-actions {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-action {
+    text-decoration: none;
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: 1px solid var(--line);
+    color: var(--text);
+    background: rgba(20, 20, 24, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .mobile-action.wa {
+    background: #1f9d58;
+    border-color: #1f9d58;
+    color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+
+</style>
+<body>
+  <!-- Шапка: бренд, навигация, переключатель языка -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="ArMad Restaurant">ARMAD</a>
+      <nav aria-label="Основная навигация">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#about" data-ru="О нас" data-kz="Біз туралы">О нас</a></li>
+          <li><a class="nav-link" href="#menu" data-ru="Меню" data-kz="Мәзір">Меню</a></li>
+          <li><a class="nav-link" href="#booking" data-ru="Бронь" data-kz="Бронь">Бронь</a></li>
+          <li><a class="nav-link" href="#contact" data-ru="Контакты" data-kz="Байланыс">Контакты</a></li>
+        </ul>
+      </nav>
+      <div class="nav-extras">
+        <div class="lang-switch" role="group" aria-label="Language switcher">
+          <button class="lang-btn is-active" data-lang="ru" type="button">RU</button>
+          <button class="lang-btn" data-lang="kz" type="button">KZ</button>
+        </div>
+        <a class="btn btn-outline" href="#booking" data-ru="Бронь" data-kz="Бронь">Бронь</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main id="top">
+    <!-- Первый экран: видео-фон и главный оффер -->
+    <section class="hero" aria-label="Приветственный экран">
+      <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster="img_5120_2880_a710.jpg" aria-hidden="true">
+        <source src="0205.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-grid">
+        <div class="hero-content" data-reveal>
+          <p class="hero-kicker" data-ru="Премиальная атмосфера" data-kz="Премиум атмосфера">Премиальная атмосфера</p>
+          <h1 class="hero-title">ArMad Restaurant</h1>
+          <p class="hero-text" data-ru="Европейская и казахская кухня, VIP-зоны, караоке и танцпол для ярких вечеров." data-kz="Еуропалық және қазақ асханасы, VIP-аймақ, караоке және би алаңы.">Европейская и казахская кухня, VIP-зоны, караоке и танцпол для ярких вечеров.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="#menu" data-ru="Смотреть меню" data-kz="Мәзірді көру">Смотреть меню</a>
+            <a class="btn btn-outline" href="#contact" data-ru="Связаться" data-kz="Байланысу">Связаться</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" data-reveal>
+          <h2 data-ru="Сегодня в ArMad" data-kz="Бүгін ArMad-та">Сегодня в ArMad</h2>
+          <ul>
+            <li><span data-ru="Кухня" data-kz="Асхана">Кухня</span><strong data-ru="Европа + Казахстан" data-kz="Еуропа + Қазақстан">Европа + Казахстан</strong></li>
+            <li><span data-ru="Режим" data-kz="Уақыты">Режим</span><strong>11:00 - 00:00</strong></li>
+            <li><span data-ru="Формат" data-kz="Формат">Формат</span><strong data-ru="Банкеты и семейные ужины" data-kz="Банкеттер мен отбасылық кешкі ас">Банкеты и семейные ужины</strong></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Раздел О ресторане -->
+    <section id="about" class="section about" data-reveal>
+      <div class="container about-grid">
+        <div>
+          <p class="section-tag" data-ru="О ресторане" data-kz="Мейрамхана туралы">О ресторане</p>
+          <h2 data-ru="Теплая подача, насыщенный вкус и уютный сервис" data-kz="Жылы сервис, қанық дәм және жайлы атмосфера">Теплая подача, насыщенный вкус и уютный сервис</h2>
+          <p data-ru="Мы готовим из свежих продуктов и создаем атмосферу премиального отдыха для семейных ужинов, встреч с друзьями и особых событий." data-kz="Біз жаңа өнімдерден дайындаймыз және отбасылық кешкі асқа, достармен кездесуге, ерекше шараларға жайлы атмосфера құрамыз.">Мы готовим из свежих продуктов и создаем атмосферу премиального отдыха для семейных ужинов, встреч с друзьями и особых событий.</p>
+        </div>
+        <div class="about-cards">
+          <article class="mini-card">
+            <h3 data-ru="VIP-залы" data-kz="VIP-залдар">VIP-залы</h3>
+            <p data-ru="Приватная обстановка для вашего праздника." data-kz="Мерекеңізге арналған жайлы жеке кеңістік.">Приватная обстановка для вашего праздника.</p>
+          </article>
+          <article class="mini-card">
+            <h3 data-ru="Караоке" data-kz="Караоке">Караоке</h3>
+            <p data-ru="Профессиональный звук и комфортные зоны." data-kz="Кәсіби дыбыс және жайлы аймақтар.">Профессиональный звук и комфортные зоны.</p>
+          </article>
+          <article class="mini-card">
+            <h3 data-ru="Банкеты" data-kz="Банкеттер">Банкеты</h3>
+            <p data-ru="Меню и формат под ваш бюджет и количество гостей." data-kz="Сіздің бюджет пен қонақ санына сай мәзір мен формат.">Меню и формат под ваш бюджет и количество гостей.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Раздел Меню: фильтры, поиск и категории -->
+    <section id="menu" class="section menu-section">
+      <div class="container">
+        <p class="section-tag" data-reveal data-ru="Меню" data-kz="Мәзір">Меню</p>
+        <h2 data-reveal data-ru="Популярные блюда ArMad" data-kz="ArMad-тың танымал тағамдары">Популярные блюда ArMad</h2>
+
+        <div class="menu-tools" data-reveal>
+          <div class="menu-filters">
+            <button class="filter-btn is-active" type="button" data-filter="all" data-ru="Все" data-kz="Барлығы">Все</button>
+            <button class="filter-btn" type="button" data-filter="pizza" data-ru="Пиццы" data-kz="Пиццалар">Пиццы</button>
+            <button class="filter-btn" type="button" data-filter="main" data-ru="Вторые блюда" data-kz="Екінші тағамдар">Вторые блюда</button>
+            <button class="filter-btn" type="button" data-filter="side" data-ru="Гарниры" data-kz="Гарнирлер">Гарниры</button>
+          </div>
+          <!-- Поиск работает по названию блюда в текущем языке -->
+          <input id="menuSearch" class="menu-search" type="search" data-ph-ru="Поиск блюда..." data-ph-kz="Тағамды іздеу..." placeholder="Поиск блюда..." autocomplete="off">
+        </div>
+
+        <div class="menu-category" data-reveal data-category="pizza">
+          <h3 class="menu-category-title" data-ru="Пиццы" data-kz="Пиццалар">Пиццы</h3>
+          <div class="menu-grid">
+            <article class="menu-item" data-category="pizza" data-name-ru="Маргарита" data-name-kz="Маргарита">
+              <h4 class="dish-name" data-ru="Маргарита" data-kz="Маргарита">Маргарита</h4>
+              <p class="dish-composition" data-ru="Тесто, томатный соус, сыр моцарелла, помидоры, базилик." data-kz="Қамыр, томат тұздығы, моцарелла ірімшігі, қызанақ, райхан.">Тесто, томатный соус, сыр моцарелла, помидоры, базилик.</p>
+              <strong class="price">2200 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="pizza" data-name-ru="Пеперони" data-name-kz="Пепперони">
+              <h4 class="dish-name" data-ru="Пеперони" data-kz="Пепперони">Пеперони</h4>
+              <p class="dish-composition" data-ru="Тесто, томатный соус, сыр моцарелла, колбаса пеперони." data-kz="Қамыр, томат тұздығы, моцарелла ірімшігі, пепперони шұжығы.">Тесто, томатный соус, сыр моцарелла, колбаса пеперони.</p>
+              <strong class="price">2700 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="pizza" data-name-ru="Етпен (Мясная)" data-name-kz="Етпен">
+              <h4 class="dish-name" data-ru="Етпен (Мясная)" data-kz="Етпен">Етпен (Мясная)</h4>
+              <p class="dish-composition" data-ru="Тесто, томатный соус, сыр моцарелла, говядина, курица, колбаса, лук." data-kz="Қамыр, томат тұздығы, моцарелла ірімшігі, сиыр еті, тауық еті, шұжық, пияз.">Тесто, томатный соус, сыр моцарелла, говядина, курица, колбаса, лук.</p>
+              <strong class="price">2900 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="pizza" data-name-ru="4 Мезгіл (4 Сезона)" data-name-kz="4 Мезгіл">
+              <h4 class="dish-name" data-ru="4 Мезгіл (4 Сезона)" data-kz="4 Мезгіл">4 Мезгіл (4 Сезона)</h4>
+              <p class="dish-composition" data-ru="Тесто, томатный соус, сыр моцарелла, ветчина, грибы, оливки, помидоры, пеперони." data-kz="Қамыр, томат тұздығы, моцарелла ірімшігі, ветчина, саңырауқұлақ, зәйтүн, қызанақ, пепперони.">Тесто, томатный соус, сыр моцарелла, ветчина, грибы, оливки, помидоры, пеперони.</p>
+              <strong class="price">2500 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="pizza" data-name-ru="Санырауқұлақ пен тауық" data-name-kz="Саңырауқұлақ пен тауық">
+              <h4 class="dish-name" data-ru="Санырауқұлақ пен тауық" data-kz="Саңырауқұлақ пен тауық">Санырауқұлақ пен тауық</h4>
+              <p class="dish-composition" data-ru="Тесто, томатный соус, сыр моцарелла, куриное мясо, грибы, лук." data-kz="Қамыр, томат тұздығы, моцарелла ірімшігі, тауық еті, саңырауқұлақ, пияз.">Тесто, томатный соус, сыр моцарелла, куриное мясо, грибы, лук.</p>
+              <strong class="price">2900 ₸</strong>
+            </article>
+          </div>
+        </div>
+
+        <div class="menu-category" data-reveal data-category="main">
+          <h3 class="menu-category-title" data-ru="Вторые блюда" data-kz="Екінші тағамдар">Вторые блюда</h3>
+          <div class="menu-grid">
+            <article class="menu-item" data-category="main" data-name-ru="Мясо по-бухарски" data-name-kz="Бұхараша ет">
+              <h4 class="dish-name" data-ru="Мясо по-бухарски" data-kz="Бұхараша ет">Мясо по-бухарски</h4>
+              <p class="dish-composition" data-ru="Говядина, картофель, лук, морковь, болгарский перец, чеснок, помидоры, специи, растительное масло." data-kz="Сиыр еті, картоп, пияз, сәбіз, болгар бұрышы, сарымсақ, қызанақ, дәмдеуіштер, өсімдік майы.">Говядина, картофель, лук, морковь, болгарский перец, чеснок, помидоры, специи, растительное масло.</p>
+              <strong class="price">2870 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="main" data-name-ru="Курица по-арабски" data-name-kz="Арабша тауық">
+              <h4 class="dish-name" data-ru="Курица по-арабски" data-kz="Арабша тауық">Курица по-арабски</h4>
+              <p class="dish-composition" data-ru="Куриное мясо, рис, лук, чеснок, морковь, специи, растительное масло." data-kz="Тауық еті, күріш, пияз, сарымсақ, сәбіз, дәмдеуіштер, өсімдік майы.">Куриное мясо, рис, лук, чеснок, морковь, специи, растительное масло.</p>
+              <strong class="price">2530 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="main" data-name-ru="Курица по-деревенски" data-name-kz="Үйше тауық">
+              <h4 class="dish-name" data-ru="Курица по-деревенски" data-kz="Үйше тауық">Курица по-деревенски</h4>
+              <p class="dish-composition" data-ru="Куриное мясо, картофель, лук, морковь, сливки или сметана, чеснок, соль, специи, растительное масло." data-kz="Тауық еті, картоп, пияз, сәбіз, кілегей не қаймақ, сарымсақ, тұз, дәмдеуіштер, өсімдік майы.">Куриное мясо, картофель, лук, морковь, сливки или сметана, чеснок, соль, специи, растительное масло.</p>
+              <strong class="price">2870 ₸</strong>
+            </article>
+          </div>
+        </div>
+
+        <div class="menu-category" data-reveal data-category="side">
+          <h3 class="menu-category-title" data-ru="Гарниры" data-kz="Гарнирлер">Гарниры</h3>
+          <div class="menu-grid">
+            <article class="menu-item" data-category="side" data-name-ru="Фри" data-name-kz="Фри">
+              <h4 class="dish-name" data-ru="Фри" data-kz="Фри">Фри</h4>
+              <p class="dish-composition" data-ru="Картофель, растительное масло, соль." data-kz="Картоп, өсімдік майы, тұз.">Картофель, растительное масло, соль.</p>
+              <strong class="price">700 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="side" data-name-ru="Рис" data-name-kz="Күріш">
+              <h4 class="dish-name" data-ru="Рис" data-kz="Күріш">Рис</h4>
+              <p class="dish-composition" data-ru="Рис, соль, растительное масло." data-kz="Күріш, тұз, өсімдік майы.">Рис, соль, растительное масло.</p>
+              <strong class="price">700 ₸</strong>
+            </article>
+            <article class="menu-item" data-category="side" data-name-ru="Картофельные дольки" data-name-kz="Картоп тілімдері">
+              <h4 class="dish-name" data-ru="Картофельные дольки" data-kz="Картоп тілімдері">Картофельные дольки</h4>
+              <p class="dish-composition" data-ru="Картофель, растительное масло, соль, специи." data-kz="Картоп, өсімдік майы, тұз, дәмдеуіштер.">Картофель, растительное масло, соль, специи.</p>
+              <strong class="price">900 ₸</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Раздел Бронь: форма отправляется в WhatsApp -->
+    <section id="booking" class="section booking" data-reveal>
+      <div class="container booking-grid">
+        <div>
+          <p class="section-tag" data-ru="Онлайн бронь" data-kz="Онлайн бронь">Онлайн бронь</p>
+          <h2 data-ru="Забронируйте стол за 1 минуту" data-kz="Үстелді 1 минутта брондаңыз">Забронируйте стол за 1 минуту</h2>
+          <p class="contact-text" data-ru="После отправки формы откроется WhatsApp с готовым текстом брони на номер ресторана." data-kz="Форманы жібергеннен кейін мейрамхана нөміріне дайын бронь мәтіні бар WhatsApp ашылады.">После отправки формы откроется WhatsApp с готовым текстом брони на номер ресторана.</p>
+        </div>
+
+        <!-- novalidate: валидацию контролируем через JS -->
+        <form id="bookingForm" class="booking-form" novalidate>
+          <div class="form-row">
+            <label>
+              <span data-ru="Имя" data-kz="Аты">Имя</span>
+              <input id="bookName" type="text" required data-ph-ru="Ваше имя" data-ph-kz="Атыңыз" placeholder="Ваше имя">
+            </label>
+            <label>
+              <span data-ru="Телефон" data-kz="Телефон">Телефон</span>
+              <input id="bookPhone" type="tel" required data-ph-ru="8 777 055 13 40" data-ph-kz="8 777 055 13 40" placeholder="8 777 055 13 40">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              <span data-ru="Дата" data-kz="Күні">Дата</span>
+              <input id="bookDate" type="date" required>
+            </label>
+            <label>
+              <span data-ru="Время" data-kz="Уақыты">Время</span>
+              <input id="bookTime" type="time" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              <span data-ru="Гостей" data-kz="Қонақ саны">Гостей</span>
+              <select id="bookGuests" required>
+                <option value="" data-ru="Выберите" data-kz="Таңдаңыз">Выберите</option>
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="10+">10+</option>
+              </select>
+            </label>
+            <label>
+              <span data-ru="Комментарий" data-kz="Пікір">Комментарий</span>
+              <input id="bookNote" type="text" data-ph-ru="Например: день рождения" data-ph-kz="Мысалы: туған күн" placeholder="Например: день рождения">
+            </label>
+          </div>
+          <button class="btn btn-solid" type="submit" data-ru="Отправить в WhatsApp" data-kz="WhatsApp-қа жіберу">Отправить в WhatsApp</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Раздел Контакты -->
+    <section id="contact" class="section contact" data-reveal>
+      <div class="container contact-grid">
+        <div>
+          <p class="section-tag" data-ru="Контакты" data-kz="Байланыс">Контакты</p>
+          <h2 data-ru="Ждем вас в ArMad" data-kz="ArMad-та күтеміз">Ждем вас в ArMad</h2>
+          <p class="contact-text" data-ru="Принимаем банкеты и мероприятия. Для брони и деталей свяжитесь с нами любым удобным способом." data-kz="Біз банкеттер мен іс-шаралар қабылдаймыз. Бронь және толық ақпарат үшін хабарласыңыз.">Принимаем банкеты и мероприятия. Для брони и деталей свяжитесь с нами любым удобным способом.</p>
+        </div>
+        <div class="contact-card">
+          <p><strong data-ru="Часы работы:" data-kz="Жұмыс уақыты:">Часы работы:</strong> 11:00 - 00:00</p>
+          <p><strong data-ru="Адрес 1:" data-kz="Мекенжай 1:">Адрес 1:</strong> Шнос, 160-квартал, 282</p>
+          <p><strong data-ru="Адрес 2:" data-kz="Мекенжай 2:">Адрес 2:</strong> Кожанова 33</p>
+          <div class="contact-actions">
+            <a class="btn btn-outline" href="tel:+77770551340" data-ru="Позвонить" data-kz="Қоңырау шалу">Позвонить</a>
+            <a class="btn btn-solid" href="https://wa.me/77071860202" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a class="btn btn-outline" href="https://www.instagram.com/armad.restaurant_2?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">Instagram ArMad</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Фиксированная мобильная панель действий -->
+<div class="mobile-actions">
+  <a href="tel:+77071860202" class="mobile-action">Звонок</a>
+  <a href="https://wa.me/77071860202" class="mobile-action wa">WhatsApp</a>
+</div>
+
+  <!-- Подвал сайта -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year">2026</span> ArMad Restaurant</p>
+    </div>
+  </footer>
+
+  <!-- Основной скрипт -->
+  <script> (function () {
+  // Основные ссылки на элементы DOM.
+  const links = Array.from(document.querySelectorAll('.nav-link'));
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+  const revealNodes = Array.from(document.querySelectorAll('[data-reveal]'));
+  const yearTarget = document.getElementById('year');
+  const langButtons = Array.from(document.querySelectorAll('.lang-btn'));
+  const textNodes = Array.from(document.querySelectorAll('[data-ru][data-kz]'));
+  const placeholderNodes = Array.from(document.querySelectorAll('[data-ph-ru][data-ph-kz]'));
+  const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+  const menuSearch = document.getElementById('menuSearch');
+  const menuCategories = Array.from(document.querySelectorAll('.menu-category[data-category]'));
+  const menuItems = Array.from(document.querySelectorAll('.menu-item[data-category]'));
+  const bookingForm = document.getElementById('bookingForm');
+  const dateInput = document.getElementById('bookDate');
+  const hero = document.querySelector('.hero');
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const prefersReducedMotion = reduceMotionQuery.matches;
+
+  const state = {
+    lang: localStorage.getItem('armad-lang') || 'ru',
+    filter: 'all'
+  };
+
+  // Автоматически обновляет текущий год в подвале.
+  if (yearTarget) {
+    yearTarget.textContent = String(new Date().getFullYear());
+  }
+
+  // Запрещает выбор прошедшей даты для брони.
+  if (dateInput) {
+    dateInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  const toLower = (value) => (value || '').toLocaleLowerCase(state.lang === 'kz' ? 'kk-KZ' : 'ru-RU');
+
+  // Параллакс первого экрана от скролла и движения мыши.
+  const setupParallax = () => {
+    if (!hero || prefersReducedMotion) {
+      return;
+    }
+
+    const updateParallaxByScroll = () => {
+      const rect = hero.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const progress = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight));
+      hero.style.setProperty('--parallax-y', `${progress * 40}px`);
+    };
+
+    const updateParallaxByMouse = (event) => {
+      const rect = hero.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 26;
+      hero.style.setProperty('--parallax-x', `${x.toFixed(2)}px`);
+    };
+
+    updateParallaxByScroll();
+    hero.addEventListener('mousemove', updateParallaxByMouse);
+    hero.addEventListener('mouseleave', () => {
+      hero.style.setProperty('--parallax-x', '0px');
+    });
+    window.addEventListener('scroll', updateParallaxByScroll, { passive: true });
+    window.addEventListener('resize', updateParallaxByScroll);
+  };
+
+  // Переключает все переводимые тексты и placeholder между RU и KZ.
+  const applyLanguage = (lang) => {
+    state.lang = lang;
+    document.documentElement.lang = lang;
+
+    textNodes.forEach((node) => {
+      const value = node.getAttribute(`data-${lang}`);
+      if (value !== null) {
+        node.textContent = value;
+      }
+    });
+
+    placeholderNodes.forEach((node) => {
+      const value = node.getAttribute(`data-ph-${lang}`);
+      if (value !== null) {
+        node.setAttribute('placeholder', value);
+      }
+    });
+
+    langButtons.forEach((btn) => btn.classList.toggle('is-active', btn.dataset.lang === lang));
+    localStorage.setItem('armad-lang', lang);
+    applyMenuFilter();
+  };
+
+  // Комбинированная фильтрация меню: категория + поисковый запрос.
+  const applyMenuFilter = () => {
+    const query = toLower(menuSearch ? menuSearch.value.trim() : '');
+
+    menuCategories.forEach((category) => {
+      const categoryId = category.dataset.category;
+      const categoryMatch = state.filter === 'all' || state.filter === categoryId;
+      const categoryItems = Array.from(category.querySelectorAll('.menu-item'));
+      let visibleCount = 0;
+
+      categoryItems.forEach((item) => {
+        const name = item.getAttribute(`data-name-${state.lang}`) || '';
+        const searchMatch = !query || toLower(name).includes(query);
+        const isVisible = categoryMatch && searchMatch;
+        item.hidden = !isVisible;
+        if (isVisible) {
+          visibleCount += 1;
+        }
+      });
+
+      category.hidden = visibleCount === 0;
+    });
+  };
+
+  // Обработчики кнопок фильтра по категориям.
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.filter = button.dataset.filter || 'all';
+      filterButtons.forEach((btn) => btn.classList.toggle('is-active', btn === button));
+      applyMenuFilter();
+    });
+  });
+
+  // Живой поиск по названию блюда.
+  if (menuSearch) {
+    menuSearch.addEventListener('input', applyMenuFilter);
+  }
+
+  // Обработчики переключения языка.
+  langButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const lang = button.dataset.lang === 'kz' ? 'kz' : 'ru';
+      applyLanguage(lang);
+    });
+  });
+
+  // Форма брони: открывает WhatsApp с готовым текстом заявки.
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!bookingForm.checkValidity()) {
+        bookingForm.reportValidity();
+        return;
+      }
+
+      const name = document.getElementById('bookName')?.value.trim() || '';
+      const phone = document.getElementById('bookPhone')?.value.trim() || '';
+      const date = document.getElementById('bookDate')?.value || '';
+      const time = document.getElementById('bookTime')?.value || '';
+      const guests = document.getElementById('bookGuests')?.value || '';
+      const note = document.getElementById('bookNote')?.value.trim() || '-';
+
+      const message = state.lang === 'kz'
+        ? [
+            'ArMad бронь',
+            `Аты: ${name}`,
+            `Телефон: ${phone}`,
+            `Күні: ${date}`,
+            `Уақыты: ${time}`,
+            `Қонақ саны: ${guests}`,
+            `Пікір: ${note}`
+          ].join('\n')
+        : [
+            'Бронь стола ArMad',
+            `Имя: ${name}`,
+            `Телефон: ${phone}`,
+            `Дата: ${date}`,
+            `Время: ${time}`,
+            `Гостей: ${guests}`,
+            `Комментарий: ${note}`
+          ].join('\n');
+
+      const waUrl = `https:wa.me/77071860202?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    });
+  }
+
+  // Плавное появление блоков при скролле с небольшой задержкой по очереди.
+  if (revealNodes.length) {
+    revealNodes.forEach((node, index) => {
+      node.style.setProperty('--reveal-delay', `${Math.min(index * 40, 360)}ms`);
+    });
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.18,
+        rootMargin: '0px 0px -8% 0px'
+      }
+    );
+
+    revealNodes.forEach((node) => revealObserver.observe(node));
+  }
+
+  // Подсветка активного пункта меню при прокрутке секций.
+  const linkById = new Map(
+    links
+      .map((link) => {
+        const href = link.getAttribute('href') || '';
+        return href.startsWith('#') ? [href.slice(1), link] : null;
+      })
+      .filter(Boolean)
+  );
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      link.classList.toggle('active', link === linkById.get(id));
+    });
+  };
+
+  if (sections.length && links.length) {
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+          .forEach((entry) => setActive(entry.target.id));
+      },
+      {
+        rootMargin: '-38% 0px -45% 0px',
+        threshold: [0.25, 0.5, 0.75]
+      }
+    );
+
+    sections.forEach((section) => navObserver.observe(section));
+  }
+
+  // Первичная инициализация.
+  applyLanguage(state.lang === 'kz' ? 'kz' : 'ru');
+  applyMenuFilter();
+  setupParallax();
+})();
+
+
+
+</script>
+</body>
+</html>
+
